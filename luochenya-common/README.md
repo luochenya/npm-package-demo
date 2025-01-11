@@ -7,13 +7,13 @@
 ## 安装
 
 ```bash
-npm install your-package-name
+npm install luochenya-common
 ```
 
 或者使用 yarn：
 
 ```bash
-yarn add your-package-name
+yarn add luochenya-common
 ```
 
 ---
@@ -25,13 +25,15 @@ yarn add your-package-name
 如果需要注册所有组件和工具方法：
 
 ```javascript
-import { createApp } from 'vue';
-import App from './App.vue';
-import YourPackageName from 'your-package-name';
+import { createApp } from 'vue'
+import App from './App.vue'
+import { LuoChenYaButton, LuoChenYaJs } from "luochenya-common";
+import "luochenya-common/luochenya-common.css";
 
 const app = createApp(App);
-app.use(YourPackageName);
-app.mount('#app');
+app.component('LuoChenYaButton', LuoChenYaButton);
+app.config.globalProperties.LuoChenYaJs = LuoChenYaJs;
+app.mount('#app')
 ```
 
 ### **按需引入**
@@ -41,21 +43,21 @@ app.mount('#app');
 如果只需要某些组件，可以按如下方式引入：
 
 ```javascript
-import { YourComponent, AnotherComponent } from 'your-package-name';
+import { LuoChenYaButton, LuoChenYaJs } from "luochenya-common";
+import "luochenya-common/luochenya-common.css";
 
 export default {
   components: {
-    YourComponent,
-    AnotherComponent,
+    LuoChenYaButton
   },
 };
 ```
 
-组件可通过 `props` 接收参数，示例：
+组件可通过 `confirm` 方法触发点击事件，示例：
 
 ```vue
 <template>
-  <YourComponent :title="'示例标题'" />
+  <LuoChenYaButton @confirm="handleClick">test按钮</LuoChenYaButton>
 </template>
 ```
 
@@ -64,14 +66,10 @@ export default {
 如果只需要某些工具方法，可以直接引入使用：
 
 ```javascript
-import { formatDate, deepClone } from 'your-package-name';
+import { LuoChenYaJs } from "luochenya-common";
 
-const formattedDate = formatDate(new Date(), 'YYYY-MM-DD');
-console.log('Formatted Date:', formattedDate);
-
-const originalObject = { name: 'example' };
-const clonedObject = deepClone(originalObject);
-console.log('Cloned Object:', clonedObject);
+const { handleThousands } = LuoChenYaJs;
+console.log(handleThousands(1234567890));
 ```
 
 ---
@@ -84,22 +82,15 @@ console.log('Cloned Object:', clonedObject);
 
 | 组件名              | 描述                                       | 示例用法                                                    |
 |---------------------|--------------------------------------------|------------------------------------------------------------|
-| `YourComponent`     | 示例组件，支持标题显示功能                 | `<YourComponent :title="'示例标题'" />`                     |
-| `AnotherComponent`  | 显示多项内容的列表组件                    | `<AnotherComponent :items="['Item 1', 'Item 2']" />`       |
+| `LuoChenYaButton`     | 示例组件，按钮hover样式                 | `<LuoChenYaButton @confirm="handleClick">test按钮</LuoChenYaButton>`                     |
 
 #### 组件属性说明
 
-**YourComponent**
+**LuoChenYaButton**
 
 | 属性名         | 类型     | 默认值        | 描述                   |
 |----------------|----------|---------------|------------------------|
-| `title`        | `String` | `''`          | 设置组件的标题         |
-
-**AnotherComponent**
-
-| 属性名         | 类型       | 默认值        | 描述                   |
-|----------------|------------|---------------|------------------------|
-| `items`        | `Array`    | `[]`          | 渲染的列表内容数组     |
+| `confirm`        | `Function` | `fun()`          | 触发点击事件         |
 
 ---
 
@@ -109,41 +100,23 @@ console.log('Cloned Object:', clonedObject);
 
 | 方法名              | 描述                                | 示例用法                                |
 |---------------------|-------------------------------------|-----------------------------------------|
-| `formatDate`        | 格式化日期为指定格式               | `formatDate(new Date(), 'YYYY-MM-DD')` |
-| `validateEmail`     | 验证邮箱是否符合格式               | `validateEmail('example@test.com')`    |
-| `deepClone`         | 深拷贝对象                         | `deepClone({ key: 'value' })`          |
-| `getRandomNumber`   | 获取指定范围的随机数               | `getRandomNumber(1, 100)`              |
+| `handleThousands`        | 数字转换千位符               | `handleThousands(1234567890)` |
 
 #### 工具方法参数与返回值
 
-**formatDate**
+**handleThousands**
 
 格式化日期为指定格式。
 
 ```javascript
-formatDate(date: Date, format: string): string
+handleThousands(value: String): string
 ```
 
 | 参数       | 类型     | 描述                     |
 |------------|----------|--------------------------|
-| `date`     | `Date`   | 要格式化的日期对象       |
-| `format`   | `String` | 日期格式，例如 `YYYY-MM-DD` |
+| `value`     | `String`   | 要格式化的数值       |
 
-**返回值**: 格式化后的日期字符串。
-
-**deepClone**
-
-深拷贝一个对象或数组，返回新的副本。
-
-```javascript
-deepClone<T>(data: T): T
-```
-
-| 参数       | 类型       | 描述                     |
-|------------|------------|--------------------------|
-| `data`     | `Object` 或 `Array` | 要深拷贝的数据 |
-
-**返回值**: 深拷贝后的数据副本。
+**返回值**: 千位符格式化后的字符串。
 
 ---
 

@@ -1,26 +1,21 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import { defineComponent } from "vue";
+  import LuoChenYaButton from "./package/luochenya-button/index.vue";
+  import LuoChenYaJs from "./package/luochenya-js/index.js";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  export default defineComponent({
+    components: {
+      LuoChenYaButton
+    },
+    methods: {
+      handleClick() {
+        const { handleThousands } = LuoChenYaJs;
+        console.log(handleThousands(1234567890));
+      }
+    }
+  })
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<template>
+  <LuoChenYaButton @confirm="handleClick">test按钮</LuoChenYaButton>
+</template>

@@ -1,7 +1,7 @@
 {
   "name": "luochenya-common",
-  "version": "1.0.1",
-  "description": "已添加组件和方法，用于测试演示",
+  "version": "1.0.2",
+  "description": "测试按需引入",
   "main": "luochenya-common.common.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
